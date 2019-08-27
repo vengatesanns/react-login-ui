@@ -1,25 +1,77 @@
 import React, { Component } from 'react';
-import { Card } from 'primereact/card';
-import { Button } from 'primereact/button';
 import './login-component.css';
 import logo from '../assets/login-image.png';
+import Button from '@material-ui/core/Button';
 
 class LoginComponent extends Component {
 
 
     render() {
         const header = <img alt="Card" src={logo} />;
-        const footer = <span>
-            <Button label="Save" icon="pi pi-check" style={{ marginRight: '.25em' }} />
-            <Button label="Cancel" icon="pi pi-times" className="p-button-secondary" />
-        </span>;
         return (
-            <div className="box-border">
-                <Card footer={footer} header={header}>
-                    Content
-</Card>
-
-            </div>
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
+                <div className={classes.paper}>
+                    <Avatar className={classes.avatar}>
+                        <LockOutlinedIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                        Sign in
+        </Typography>
+                    <form className={classes.form} noValidate>
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="email"
+                            label="Email Address"
+                            name="email"
+                            autoComplete="email"
+                            autoFocus
+                        />
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+                        />
+                        <FormControlLabel
+                            control={<Checkbox value="remember" color="primary" />}
+                            label="Remember me"
+                        />
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                        >
+                            Sign In
+          </Button>
+                        <Grid container>
+                            <Grid item xs>
+                                <Link href="#" variant="body2">
+                                    Forgot password?
+              </Link>
+                            </Grid>
+                            <Grid item>
+                                <Link href="#" variant="body2">
+                                    {"Don't have an account? Sign Up"}
+                                </Link>
+                            </Grid>
+                        </Grid>
+                    </form>
+                </div>
+                <Box mt={8}>
+                    <Copyright />
+                </Box>
+            </Container>
         )
     }
 }

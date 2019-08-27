@@ -5,10 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 
-//Prime Designs
-import 'primereact/resources/themes/nova-light/theme.css';
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
+
 
 
 

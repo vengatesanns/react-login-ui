@@ -1,17 +1,16 @@
 import React from 'react';
 import './App.css';
-import { Card } from 'primereact/card';
-import LoginComponent from './login-component/login-component'
+import SignIn from './sign-in/sign-in-component';
+import SignInComponent from './sign-in/signin-component';
 
 
 function App() {
-  return (
-    <div className="App">
-      <Card className="nav-card">
-      </Card>
-      <LoginComponent />
-    </div>
-  );
+    return (
+        <div className="App">
+            <SignIn />
+            <SignInComponent />
+        </div>
+    );
 }
 
 export default App;
