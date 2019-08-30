@@ -1,0 +1,24 @@
+body {
+   background-color: white;
+}
+
+.paper {
+    margin-top: 6.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .avatar {
+    margin: 0.8rem;
+    background-color: white;
+  }
+
+  .form {
+    width: '100%';
+    margin: 0.8rem !important;
+  }
+
+  .submit {
+    margin: 2.4rem 0  1.6rem 0 !important;
+  }
