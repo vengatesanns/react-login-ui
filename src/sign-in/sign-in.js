@@ -33,7 +33,30 @@ function Copyright() {
 class SignIn extends Component {
 
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: '',
+            password: ''
+        };
+    }
+
+    //Value Setting
+    valueChangeHandler = (event) => {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+    };
+
+
+    //Form Submit
+    submitForm = () => {
+        alert(`Username - ${this.state.username}   ,  Password - ${this.state.password} `)
+    };
+
+    // UI template
     render() {
+        const { username, password } = this.state;
         return (
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
@@ -50,11 +73,13 @@ class SignIn extends Component {
                             margin="normal"
                             required
                             fullWidth
-                            id="email"
-                            label="Email Address"
-                            name="email"
-                            autoComplete="email"
+                            id="username"
+                            label="Username"
+                            name="username"
+                            autoComplete="username"
                             autoFocus
+                            value={username}
+                            onChange={this.valueChangeHandler}
                         />
                         <TextField
                             variant="outlined"
@@ -66,18 +91,19 @@ class SignIn extends Component {
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            value={password}
+                            onChange={this.valueChangeHandler}
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"
                         />
                         <Button
-                            type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
                             className={styles.submit}
-                        >
+                            onClick={this.submitForm} >
                             Sign In
                 </Button>
                         <Grid container>
