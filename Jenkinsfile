@@ -5,6 +5,7 @@ pipeline {
          {
              steps
              {
+                sh 'rm -R node_modules'
                 sh 'npm install'
                 echo '>>> NPM Install Successfully'   
              }
@@ -20,7 +21,7 @@ pipeline {
          {
              steps
              {
-                sh 'npm run build'
+                sh 'rm -R build && npm run build'
                 echo '>>> Build Successfully'   
              }
          }
