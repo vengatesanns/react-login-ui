@@ -13,13 +13,14 @@ pipeline {
          {
              steps
              {
-                echo '>>> Unit Test Run Successfully'   
+                echo '>>> Unit Test Skiped Successfully'   
              }
          }
          stage ('Build')
          {
              steps
              {
+                sh 'npm run build'
                 echo '>>> Build Successfully'   
              }
          }
@@ -27,6 +28,9 @@ pipeline {
          {
             steps
             {
+                sh 'ls -a'
+                sh 'cp /var/lib/jenkins/workspace/Login_Module_Pipeline/. /var/www/hackpro.jumpingcrab.com/html/'
+                echo '>>> React.js Project Build files Moved to Nginx Server'
                 echo '>>> Login UI Deployed Successfully'   
             }   
          }
