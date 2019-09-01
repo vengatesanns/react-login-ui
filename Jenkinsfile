@@ -1,20 +1,33 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:6-alpine' 
-            args '-p 3000:3000' 
-        }
-    }
+    agent any
     stages {
-         stage ('React.js Build')
+         stage ('NPM Dependency Install')
          {
-             steps {
-                cp -r  '~/home/vengat/My\ Projects/React Projects/login-app/.' '/var/lib/jenkins/workspace/Login_Module_Pipeline'
+             steps
+             {
+                echo '>>> NPM Install Successfully'   
              }
-             steps {
-                 sh 'npm run build'
-                 echo 'UI React.js Project Build Successfully!!!'
+         }
+         stage ('Unit Test')
+         {
+             steps
+             {
+                echo '>>> Unit Test Run Successfully'   
              }
+         }
+         stage ('Build')
+         {
+             steps
+             {
+                echo '>>> Build Successfully'   
+             }
+         }
+         stage ('Deploy')
+         {
+            steps
+            {
+                echo '>>> Login UI Deployed Successfully'   
+            }   
          }
     }
 }
