@@ -12,18 +12,19 @@ import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
 
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
+            <Link color="inherit" href="https://github.com/vengatesanns">
                 Your Website
         </Link>{' '}
             {new Date().getFullYear()}
-            {'. Built with '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Material-UI.
+            {'. Check '}
+            <Link color="inherit" href="https://github.com/vengatesanns">
+                Github
         </Link>
         </Typography>
     );
@@ -51,8 +52,26 @@ class SignIn extends Component {
 
     //Form Submit
     submitForm = () => {
-        alert(`Username - ${this.state.username}   ,  Password - ${this.state.password} `)
+        //alert(`Username - ${this.state.username}   ,  Password - ${this.state.password} `)
+        const params = new URLSearchParams();
+        params.append('username', this.state.username);
+        params.append('password', this.state.password);
+        params.append('grant_type', 'password');
+        const token_url = "http://localhost:7000/oauth/token";
+        const headers = {
+            'Authorization': 'Basic ' + btoa('hackpro_clients:Hack-Pro-Secret'),
+            'Content-type': 'application/x-www-form-urlencoded'
+        };
+        axios.post(token_url, params, { headers: headers })
+            .then(response => console.log(response))
+            .catch(error => console.log(error));
     };
+
+
+    test = () => {
+        axios.post("http://localhost:7000/test", {})
+            .then(res => console.log(res));
+    }
 
     // UI template
     render() {
