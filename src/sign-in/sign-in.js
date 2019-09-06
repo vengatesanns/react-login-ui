@@ -13,13 +13,14 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
+import PopUpDialog from '../pop-up-dialog/pop-up-dialog';
 
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
             <Link color="inherit" href="https://github.com/vengatesanns">
-                Your Website
+                HackPro
         </Link>{' '}
             {new Date().getFullYear()}
             {'. Check '}
@@ -40,6 +41,7 @@ class SignIn extends Component {
             username: '',
             password: ''
         };
+        this.popupDialogRef = React.createRef();
     }
 
     //Value Setting
@@ -63,14 +65,28 @@ class SignIn extends Component {
             'Content-type': 'application/x-www-form-urlencoded'
         };
         axios.post(token_url, params, { headers: headers })
-            .then(response => console.log(response))
-            .catch(error => console.log(error));
+            .then(response => {
+                sessionStorage.setItem("token", response.data.access_token);
+                this.popupDialogRef.current.info("Login Successfully!!!");
+            })
+            .catch(err => {
+                if (err.response.data.error === 'invalid_grant') {
+                    this.popupDialogRef.current.error("User or Password is Incorrect");
+                }
+                else {
+                    this.popupDialogRef.current.error(err.message);
+                }
+            });
     };
 
 
     test = () => {
-        axios.post("http://localhost:7000/test", {})
-            .then(res => console.log(res));
+        const headers = {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')} `,
+            'Content-type': 'application/json'
+        }
+        axios.post("http://localhost:7000/test", { headers })
+            .then(res => alert(res)).catch(err => alert(err));
     }
 
     // UI template
@@ -142,7 +158,18 @@ class SignIn extends Component {
                 <Box mt={8}>
                     <Copyright />
                 </Box>
-            </Container>)
+                <PopUpDialog ref={this.popupDialogRef} />
+
+                <Button
+                    fullWidth
+                    variant="contained"
+                    color="warn"
+                    className={styles.submit}
+                    onClick={this.test} >
+                    Test Services
+                </Button>
+            </Container>
+        )
     }
 
 }
