@@ -15,22 +15,6 @@ import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import PopUpDialog from '../pop-up-dialog/pop-up-dialog';
 
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://github.com/vengatesanns">
-                HackPro
-        </Link>{' '}
-            {new Date().getFullYear()}
-            {'. Check '}
-            <Link color="inherit" href="https://github.com/vengatesanns">
-                Github
-        </Link>
-        </Typography>
-    );
-}
-
 
 class SignIn extends Component {
 
@@ -54,40 +38,28 @@ class SignIn extends Component {
 
     //Form Submit
     submitForm = () => {
-        //alert(`Username - ${this.state.username}   ,  Password - ${this.state.password} `)
         const params = new URLSearchParams();
         params.append('username', this.state.username);
         params.append('password', this.state.password);
-        params.append('grant_type', 'password');
-        const token_url = "http://localhost:7000/oauth/token";
+        params.append('grant_type', `${process.env.REACT_APP_GRANT_TYPE}`);
         const headers = {
             'Authorization': 'Basic ' + btoa('hackpro_clients:Hack-Pro-Secret'),
             'Content-type': 'application/x-www-form-urlencoded'
         };
-        axios.post(token_url, params, { headers: headers })
+        axios.post(`${process.env.REACT_APP_LOGIN_API}`, params, { headers: headers })
             .then(response => {
                 sessionStorage.setItem("token", response.data.access_token);
                 this.popupDialogRef.current.info("Login Successfully!!!");
             })
             .catch(err => {
-                if (err.response.data.error === 'invalid_grant') {
-                    this.popupDialogRef.current.error("User or Password is Incorrect");
+                if (err.response != null && err.response.data.error === 'invalid_grant') {
+                    this.popupDialogRef.current.openSnackBar("User or Password is Incorrect");
                 }
                 else {
-                    this.popupDialogRef.current.error(err.message);
+                    this.popupDialogRef.current.openSnackBar(err.message);
                 }
             });
     };
-
-
-    test = () => {
-        const headers = {
-            'Authorization': `Bearer ${sessionStorage.getItem('token')} `,
-            'Content-type': 'application/json'
-        }
-        axios.post("http://localhost:7000/test", { headers })
-            .then(res => alert(res)).catch(err => alert(err));
-    }
 
     // UI template
     render() {
@@ -156,18 +128,19 @@ class SignIn extends Component {
                     </form>
                 </div>
                 <Box mt={8}>
-                    <Copyright />
+                    <Typography variant="body2" color="textSecondary" align="center">
+                        {'Copyright © '}
+                        <Link color="inherit" href="https://github.com/vengatesanns">
+                            HackPro
+                     </Link>{' '}
+                        {new Date().getFullYear()}
+                        {'. Check '}
+                        <Link color="inherit" href="https://github.com/vengatesanns">
+                            Github
+                        </Link>
+                    </Typography>
                 </Box>
                 <PopUpDialog ref={this.popupDialogRef} />
-
-                <Button
-                    fullWidth
-                    variant="contained"
-                    color="warn"
-                    className={styles.submit}
-                    onClick={this.test} >
-                    Test Services
-                </Button>
             </Container>
         )
     }
